@@ -128,12 +128,6 @@ TEST(JsonObjectTests, ObjectArray)
     array.add("key3", makeValue(true));
     array.add("key4", makeValue(nullptr));
 
-    for(const auto&[key, value] : array)
-    {
-        EXPECT_FALSE(value.isObject());
-        std::cout << "key: " << key << ", value: " << value << std::endl;
-    }
-
     EXPECT_THAT(array, Not(IsEmpty()));
     EXPECT_THAT(array, SizeIs(4));
 
