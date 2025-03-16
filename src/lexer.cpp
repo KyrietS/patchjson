@@ -156,7 +156,7 @@ namespace patchjson
             token.lexeme = consume(length);
             return token;
         }
-        catch(const std::exception& e)
+        catch(const std::exception&)
         {
             throw LexerError{ "Invalid number", position };
         }
