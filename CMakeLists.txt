@@ -17,6 +17,5 @@ target_include_directories(patchjson PUBLIC include/)
 option(TESTS "Build tests" ON)
 
 if(TESTS)
-    enable_testing()
     add_subdirectory(tests)
 endif()
