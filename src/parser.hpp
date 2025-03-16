@@ -17,9 +17,10 @@ namespace json_manip
     public:
         Parser(std::vector<Token> tokens) : tokens(std::move(tokens)) {}
 
-        JsonObject parseObject();
+        JsonObject parse();
 
     private:
+        JsonObject parseObject();
         JsonValue parseValue();
         JsonObject parseArray();
 

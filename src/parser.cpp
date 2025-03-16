@@ -6,6 +6,29 @@
 
 namespace json_manip
 {
+namespace
+{
+    void setLocationAndParent(JsonObject& object, JsonValue* parent)
+    {
+        for(auto& [key, value] : object)
+        {
+            value.location = key;
+            value.parent = parent;
+            if (value.isObjectOrArray())
+            {
+                setLocationAndParent(value.getObject(), &value);
+            }
+        }
+    }
+}
+
+    JsonObject Parser::parse()
+    {
+        JsonObject object = parseObject();
+        setLocationAndParent(object, nullptr);
+        return object;
+    }
+
     JsonObject Parser::parseObject()
     {
         JsonObject object;

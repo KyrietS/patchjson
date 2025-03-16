@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(${TEST_TARGET}
     json_manip_tests.cpp
     json_object_tests.cpp
+    json_path_tests.cpp
     document_tests.cpp
     lexer_tests.cpp
     parser_tests.cpp

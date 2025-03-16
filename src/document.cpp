@@ -9,7 +9,7 @@ namespace json_manip
         this->source = std::string{source};
         Lexer lexer{this->source};
         Parser parser{lexer.tokenize()};
-        object = parser.parseObject();
+        object = parser.parse();
     }
 
     const JsonObject& Document::json() const

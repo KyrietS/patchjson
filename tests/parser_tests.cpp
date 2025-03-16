@@ -14,14 +14,14 @@ struct ParserTests : public Test
     {
         auto tokens = Lexer{source}.tokenize();
         auto parser = Parser{tokens};
-        return parser.parseObject();
+        return parser.parse();
     }
 
     void expectParsingError(std::string_view source)
     {
         auto tokens = Lexer{source}.tokenize();
         auto parser = Parser{tokens};
-        EXPECT_THROW(parser.parseObject(), ParsingError);
+        EXPECT_THROW(parser.parse(), ParsingError);
     }
 };
 
@@ -76,4 +76,74 @@ TEST_F(ParserTests, ObjectWithArray)
     EXPECT_EQ(array.at(0), 1.0);
     EXPECT_TRUE(array.at(1).isObject());
     EXPECT_EQ(array.at(2), "bar");
+}
+
+TEST_F(ParserTests, ValueLocationTest)
+{
+    auto object = parseObject(R"({ "foo": 123 })");
+
+    EXPECT_EQ(object.at("foo").location, "foo");
+    EXPECT_EQ(object.at("foo").parent, nullptr);
+}
+
+TEST_F(ParserTests, ValueNestedInObjectLocationTest)
+{
+    auto object = parseObject(R"({ "foo": { "bar": 123 } })");
+
+    EXPECT_EQ(object.at("foo").location, "foo");
+    EXPECT_EQ(object.at("foo").parent, nullptr);
+
+    EXPECT_EQ(object.at("foo").getObject().at("bar").location, "bar");
+    EXPECT_EQ(object.at("foo").getObject().at("bar").parent, &object.at("foo"));
+}
+
+TEST_F(ParserTests, ValueNestedInArrayLocationTest)
+{
+    auto object = parseObject(R"({ "foo": [1, { "bar": 123 }, 3] })");
+
+    EXPECT_EQ(object.at("foo").location, "foo");
+    EXPECT_EQ(object.at("foo").parent, nullptr);
+
+    EXPECT_EQ(object.at("foo").getObject().at(1).location, "1");
+    EXPECT_EQ(object.at("foo").getObject().at(1).parent, &object.at("foo"));
+}
+
+struct PathTests : ParserTests {};
+
+TEST_F(PathTests, SingleMemberGetPath)
+{
+    auto object = parseObject(R"({ "foo": 123 })");
+
+    const auto& value = object.at("foo");
+    const auto& path = value.path();
+
+    EXPECT_EQ(path.toString(), "/foo");
+}
+
+TEST_F(PathTests, NestedMemberGetPath)
+{
+    auto object = parseObject(R"({ "foo": { "bar": 123 } })");
+
+    const auto& value = object.at("foo").getObject().at("bar");
+    const auto& path = value.path();
+
+    EXPECT_EQ(path.toString(), "/foo/bar");
+}
+
+TEST_F(PathTests, SingleMemberFindByPath)
+{
+    auto object = parseObject(R"({ "foo": 123 })");
+
+    const auto& found = object.find(JsonPath{"/foo"});
+
+    EXPECT_EQ(found, 123.0);
+}
+
+TEST_F(PathTests, NestedMemberFindByPath)
+{
+    auto object = parseObject(R"({ "foo": { "bar": 123 } })");
+
+    const auto& found = object.find(JsonPath{"/foo/bar"});
+
+    EXPECT_EQ(found, 123.0);
 }

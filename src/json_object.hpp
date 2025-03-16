@@ -6,7 +6,10 @@
 #include <memory>
 #include <utility>
 #include <variant>
+#include <string_view>
+#include <span>
 #include "token.hpp"
+#include "json_path.hpp"
 
 namespace json_manip
 {
@@ -24,6 +27,8 @@ namespace json_manip
     public:
         JsonValue(Token token);
         JsonValue(Token token, std::unique_ptr<JsonObject> object);
+        void setLocation(std::string_view location) { this->location = location; }
+        void setParent(JsonValue* parent) { this->parent = parent; }
 
         bool isString() const { return token.type == TokenType::String; }
         bool isNumber() const { return token.type == TokenType::Number; }
@@ -38,6 +43,7 @@ namespace json_manip
         JsonBooleanType getBoolean() const { expect(isBoolean()); return std::get<bool>(token.literal.value()); }
         JsonNullType getNull() const { expect(isNull()); return nullptr; }
         const JsonObject& getObject() const { expect(isObject() or isArray()); return *object; }
+        JsonObject& getObject() { expect(isObject() or isArray()); return *object; }
 
         bool operator==(const char* rhs) const { return isString() && getString() == rhs; }
         bool operator==(const JsonStringType& rhs) const { return isString() && getString() == rhs; }
@@ -45,12 +51,18 @@ namespace json_manip
         bool operator==(const JsonBooleanType& rhs) const { return isBoolean() && getBoolean() == rhs; }
         bool operator==(const JsonNullType& rhs) const { return isNull(); }
 
+        JsonPath path() const;
+        const JsonValue& find(std::span<const std::string> path) const;
+
         std::string toString() const;
 
         Token token;
 
+        std::string_view location{};
+        JsonValue* parent{};
+
     private:
-        std::unique_ptr<JsonObject> object;
+        std::unique_ptr<JsonObject> object{};
 
         void expect(bool condition) const
         {
@@ -78,14 +90,16 @@ namespace json_manip
     public:
         JsonObject() = default;
 
-        const JsonValue& at(const std::string& key) const;
+        const JsonValue& at(const std::string_view key) const;
         const JsonValue& at(size_t index) const;
-        void add(std::string key, JsonValue value) { members.push_back({std::move(key), std::move(value)}); }
+        void add(std::string key, JsonValue value);
+
+        const JsonValue& find(std::span<const std::string> path) const;
 
         size_t size() const { return members.size(); }
         bool empty() const { return members.empty(); }
-        const auto begin() const { return members.cbegin(); }
-        const auto end() const { return members.cend(); }
+        auto begin() { return members.begin(); }
+        auto end() { return members.end(); }
 
         Token beginToken{};
         Token endToken{};
