@@ -56,11 +56,13 @@ namespace
     {
         if (match(TokenType::OpenBrace))
         {
-            return {peek(), std::make_unique<JsonObject>(parseObject())};
+            Token token = peek();
+            return {token, std::make_unique<JsonObject>(parseObject())};
         }
         else if (match(TokenType::OpenBracket))
         {
-            return {peek(), std::make_unique<JsonObject>(parseArray())};
+            Token token = peek();
+            return {token, std::make_unique<JsonObject>(parseArray())};
         }
         else if (match(TokenType::String))
         {
