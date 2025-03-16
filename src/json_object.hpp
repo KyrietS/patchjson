@@ -95,6 +95,7 @@ namespace json_manip
         void add(std::string key, JsonValue value);
 
         const JsonValue& find(std::span<const std::string> path) const;
+        const JsonValue& find(std::string_view path) const { return find(JsonPath{path}); }
 
         size_t size() const { return members.size(); }
         bool empty() const { return members.empty(); }
