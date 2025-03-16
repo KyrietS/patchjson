@@ -130,6 +130,26 @@ TEST_F(PathTests, NestedMemberGetPath)
     EXPECT_EQ(path.toString(), "/foo/bar");
 }
 
+TEST_F(PathTests, MemberInArrayGetPath)
+{
+    auto object = parseObject(R"({ "foo": [1, 2, 3] })");
+
+    const auto& value = object.at("foo").getObject().at(1);
+    const auto& path = value.path();
+
+    EXPECT_EQ(path.toString(), "/foo/1");
+}
+
+TEST_F(PathTests, MemberInObjectInArrayGetPath)
+{
+    auto object = parseObject(R"({ "foo": [1, { "bar": 123 }, 3] })");
+
+    const auto& value = object.at("foo").getObject().at(1).getObject().at("bar");
+    const auto& path = value.path();
+
+    EXPECT_EQ(path.toString(), "/foo/1/bar");
+}
+
 TEST_F(PathTests, SingleMemberFindByPath)
 {
     auto object = parseObject(R"({ "foo": 123 })");
@@ -144,6 +164,15 @@ TEST_F(PathTests, NestedMemberFindByPath)
     auto object = parseObject(R"({ "foo": { "bar": 123 } })");
 
     const auto& found = object.find(JsonPath{"/foo/bar"});
+
+    EXPECT_EQ(found, 123.0);
+}
+
+TEST_F(PathTests, MemberInObjectInArrayFindByPath)
+{
+    auto object = parseObject(R"({ "foo": [1, { "bar": 123 }, 3] })");
+
+    const auto& found = object.find(JsonPath{"/foo/1/bar"});
 
     EXPECT_EQ(found, 123.0);
 }
