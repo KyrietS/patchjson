@@ -24,7 +24,7 @@ public:
     /// Note: this method will invalidate a reference to JsonObject returned by json().
     void replace(const JsonPath& path, int newValue);
 
-    // Checks if the document contains a replacable value at the specified path.
+    /// Checks if the document contains a replacable value at the specified path.
     bool replacable(const JsonPath& path) const;
 
     /// Gets the source of the document.
