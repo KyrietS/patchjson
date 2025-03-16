@@ -5,7 +5,7 @@
 #include <span>
 
 
-namespace json_manip
+namespace patchjson
 {
     struct ParsingError : std::runtime_error
     {

@@ -7,13 +7,13 @@ FetchContent_Declare(
     GIT_TAG        v1.16.0
 )
 
-set(TEST_TARGET json_manip_tests)
+set(TEST_TARGET patchjson_tests)
 
 project(${TEST_TARGET})
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(${TEST_TARGET}
-    json_manip_tests.cpp
+    patchjson_tests.cpp
     json_object_tests.cpp
     json_path_tests.cpp
     document_tests.cpp
@@ -24,7 +24,7 @@ add_executable(${TEST_TARGET}
 )
 
 target_include_directories(${TEST_TARGET} PRIVATE ../src) # Allow testing of internal functions
-target_link_libraries(${TEST_TARGET} json_manip)
+target_link_libraries(${TEST_TARGET} patchjson)
 
 # Google Test
 set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE) # Windows clang fix

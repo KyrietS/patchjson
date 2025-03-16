@@ -6,7 +6,7 @@
 #include <iostream>
 
 using namespace testing;
-using namespace json_manip;
+using namespace patchjson;
 using namespace token_utils;
 
 

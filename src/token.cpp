@@ -1,7 +1,7 @@
 #include "token.hpp"
 #include <ostream>
 
-namespace json_manip
+namespace patchjson
 {
 
     std::string to_string(TokenType type)
@@ -23,12 +23,12 @@ namespace json_manip
         }
     }
 
-std::ostream& operator<<(std::ostream& os, const json_manip::TokenType& type)
+std::ostream& operator<<(std::ostream& os, const patchjson::TokenType& type)
 {
     return os << to_string(type);
 }
 
-std::ostream& operator<<(std::ostream& os, const json_manip::Token& token)
+std::ostream& operator<<(std::ostream& os, const patchjson::Token& token)
 {
     os << "Token(type='" << token.type << "', lexeme='" << token.lexeme << "', literal='";
     if (token.literal.has_value())

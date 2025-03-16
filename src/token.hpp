@@ -4,7 +4,7 @@
 #include <optional>
 #include <format>
 
-namespace json_manip
+namespace patchjson
 {
     enum class TokenType
     {
@@ -39,16 +39,16 @@ namespace json_manip
 
     std::string to_string(TokenType type);
 
-    std::ostream& operator<<(std::ostream& os, const json_manip::TokenType& type);
-    std::ostream& operator<<(std::ostream& os, const json_manip::Token& token);
+    std::ostream& operator<<(std::ostream& os, const patchjson::TokenType& type);
+    std::ostream& operator<<(std::ostream& os, const patchjson::Token& token);
 
 }
 
 
 template <>
-struct std::formatter<json_manip::TokenType> : std::formatter<std::string>
+struct std::formatter<patchjson::TokenType> : std::formatter<std::string>
 {
-    auto format(json_manip::TokenType type, std::format_context& ctx) const
+    auto format(patchjson::TokenType type, std::format_context& ctx) const
     {
         return std::formatter<std::string>::format(to_string(type), ctx);
     }

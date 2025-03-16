@@ -4,7 +4,7 @@
 #include <vector>
 #include <stdexcept>
 
-namespace json_manip
+namespace patchjson
 {
     struct LexerError
     {
@@ -26,7 +26,7 @@ namespace json_manip
         void consumeWhitespaces();
 
         Token readToken(TokenType type, char expectedChar);
-        Token readToken(TokenType type, std::string_view expectedLexeme, const json_manip::Literal& = {});
+        Token readToken(TokenType type, std::string_view expectedLexeme, const patchjson::Literal& = {});
         Token readStringToken();
         Token readNumberToken();
 

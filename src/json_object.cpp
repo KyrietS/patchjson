@@ -3,7 +3,7 @@
 #include <format>
 #include <cassert>
 
-namespace json_manip
+namespace patchjson
 {
     JsonValue::JsonValue(Token token, std::unique_ptr<JsonObject> object) : token{std::move(token)}, object{std::move(object)} {}
     JsonValue::JsonValue(Token token) : JsonValue(token, nullptr) {}
@@ -71,7 +71,7 @@ namespace json_manip
         return at(location).find(path);
     }
 
-    std::ostream& operator<<(std::ostream& os, const json_manip::JsonValue& value)
+    std::ostream& operator<<(std::ostream& os, const patchjson::JsonValue& value)
     {
         os << value.toString();
         return os;

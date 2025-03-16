@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "json_manip/json_manip.hpp"
+#include "patchjson/patchjson.hpp"
 
 
 TEST(Foo, Foo)

@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace json_manip
+namespace patchjson
 {
     void Document::load(std::string_view source)
     {

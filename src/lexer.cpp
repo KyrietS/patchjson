@@ -2,7 +2,7 @@
 #include <cassert>
 #include <cctype>
 
-namespace json_manip
+namespace patchjson
 {
     std::vector<Token> Lexer::tokenize()
     {
@@ -99,7 +99,7 @@ namespace json_manip
     }
 
 
-    Token Lexer::readToken(TokenType type, std::string_view expectedLexeme, const json_manip::Literal& literal)
+    Token Lexer::readToken(TokenType type, std::string_view expectedLexeme, const patchjson::Literal& literal)
     {
         if (source.size() < expectedLexeme.size())
         {

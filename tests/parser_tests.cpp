@@ -5,7 +5,7 @@
 #include "parser.hpp"
 
 using namespace testing;
-using namespace json_manip;
+using namespace patchjson;
 using namespace token_utils;
 
 struct ParserTests : public Test
@@ -67,7 +67,7 @@ TEST_F(ParserTests, ObjectWithArray)
     auto object = parseObject(R"({ "foo": [1, {}, "bar"] })");
 
     EXPECT_THAT(object, SizeIs(1));
-    const json_manip::JsonValue& value = object.at(0);
+    const patchjson::JsonValue& value = object.at(0);
 
     ASSERT_TRUE(value.isArray());
     const JsonObject& array = value.getObject();

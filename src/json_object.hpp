@@ -11,7 +11,7 @@
 #include "token.hpp"
 #include "json_path.hpp"
 
-namespace json_manip
+namespace patchjson
 {
     class JsonObject;
 

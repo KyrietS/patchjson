@@ -5,7 +5,7 @@
 #include "json_object.hpp"
 #include "json_path.hpp"
 
-namespace json_manip
+namespace patchjson
 {
 class Document
 {

@@ -4,7 +4,7 @@
 #include "document.hpp"
 
 using namespace testing;
-using namespace json_manip;
+using namespace patchjson;
 
 struct DocumentTests : public Test
 {

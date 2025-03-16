@@ -1,6 +1,6 @@
 #pragma once
 
-namespace json_manip
+namespace patchjson
 {
     int foo();
 }

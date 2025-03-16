@@ -5,7 +5,7 @@
 #include "utils/token_utils.hpp"
 
 using namespace testing;
-using namespace json_manip;
+using namespace patchjson;
 
 namespace match
 {

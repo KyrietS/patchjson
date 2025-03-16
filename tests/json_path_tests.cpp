@@ -2,7 +2,7 @@
 #include "json_path.hpp"
 
 using namespace testing;
-using namespace json_manip;
+using namespace patchjson;
 
 TEST(JsonPathTests, EmptyPath)
 {

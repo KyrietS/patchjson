@@ -4,7 +4,7 @@
 #include <variant>
 #include "token.hpp"
 
-namespace json_manip
+namespace patchjson
 {
 namespace
 {

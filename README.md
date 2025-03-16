@@ -1,25 +1,25 @@
-# json_manip
+# patchjson
 
-json_manip is a simple library for manipulating values in JSON files. It does not alter the structure nor the formatting of the JSON file. Only the values that are already present can be changed.
+patchjson is a small utility to modify values in JSON files. It does not change the structure nor the formatting of the JSON file. Only the values that are already present can be changed.
 
 ## Getting started
 
-Use FetchContent to include json_manip in your project.
+Use FetchContent to include patchjson in your project.
 ```cmake
 include(FetchContent)
 FetchContent_Declare(
-    json_manip
-    GIT_REPOSITORY https://github.com/KyrietS/json_manip.git
+    patchjson
+    GIT_REPOSITORY https://github.com/KyrietS/patchjson.git
     GIT_TAG        master
 )
-FetchContent_MakeAvailable(json_manip)
-target_link_libraries(your_target json_manip)
+FetchContent_MakeAvailable(patchjson)
+target_link_libraries(your_target patchjson)
 ```
 
 or include it as a subdirectory after cloning the repository.
 ```cmake
-add_subdirectory(json_manip)
-target_link_libraries(your_target json_manip)
+add_subdirectory(patchjson)
+target_link_libraries(your_target patchjson)
 ```
 
 ## Tests

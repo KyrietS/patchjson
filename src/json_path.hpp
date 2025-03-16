@@ -5,7 +5,7 @@
 #include <sstream>
 #include <cassert>
 
-namespace json_manip
+namespace patchjson
 {
     class JsonPath
     {
