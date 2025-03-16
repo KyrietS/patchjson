@@ -6,9 +6,9 @@
 
 namespace patchjson
 {
-    void Document::load(std::string_view source)
+    void Document::load(std::string source)
     {
-        this->source = std::string{source};
+        this->source = std::move(source);
         Lexer lexer{this->source};
         Parser parser{lexer.tokenize()};
         object = parser.parse();

@@ -14,7 +14,7 @@ public:
 
     /// Loads a JSON document from a JSON source.
     /// Note: this method will invalidate a reference to JsonObject returned by json().
-    void load(std::string_view source);
+    void load(std::string source);
 
     /// Gets JSON object from parsed document.
     /// Note: reference returned by this method is valid only until the next call to load() or replace().
