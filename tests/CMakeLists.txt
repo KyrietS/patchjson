@@ -10,7 +10,6 @@ FetchContent_Declare(
 set(TEST_TARGET patchjson_tests)
 
 project(${TEST_TARGET})
-set(CMAKE_CXX_STANDARD 23)
 
 add_executable(${TEST_TARGET}
     patchjson_tests.cpp
@@ -25,6 +24,7 @@ add_executable(${TEST_TARGET}
 
 target_include_directories(${TEST_TARGET} PRIVATE ../src) # Allow testing of internal functions
 target_link_libraries(${TEST_TARGET} patchjson)
+target_compile_features(${TEST_TARGET} PRIVATE cxx_std_23)
 
 # Google Test
 set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE) # Windows clang fix
