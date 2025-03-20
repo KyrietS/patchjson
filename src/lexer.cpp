@@ -130,7 +130,7 @@ namespace patchjson
         size_t length = 0;
         while (source[1 + length] != '"')
         {
-            if (std::iscntrl(source[1 + length]))
+            if (std::iscntrl(static_cast<unsigned char>(source[1 + length])))
             {
                 throw LexerError{ "Unexpected control character inside string", line, column };
             }
