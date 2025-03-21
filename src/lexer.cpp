@@ -1,6 +1,24 @@
 #include "lexer.hpp"
 #include <cassert>
 #include <cctype>
+#include <charconv>
+
+namespace
+{
+    double toDouble(std::string_view view, size_t& length)
+    {
+        double value = 0;
+        const char* first = view.data();
+        const char* last = view.data() + view.size();
+        auto [ptr, errorCode] = std::from_chars(first, last, value);
+        if (errorCode != std::errc{})
+        {
+            throw std::invalid_argument{"Invalid number"};
+        }
+        length = ptr - first;
+        return value;
+    }
+}
 
 namespace patchjson
 {
@@ -152,7 +170,7 @@ namespace patchjson
             Token token{TokenType::Number};
             token.position = position;
             size_t length = 0;
-            token.literal = std::stod(std::string{source}, &length);
+            token.literal = toDouble(source, length);
             token.lexeme = consume(length);
             return token;
         }
@@ -162,10 +180,10 @@ namespace patchjson
         }
     }
 
-    std::string Lexer::consume(size_t length)
+    std::string_view Lexer::consume(size_t length)
     {
         assert(source.size() >= length);
-        std::string lexeme = std::string{source.substr(0, length)};
+        std::string_view lexeme = source.substr(0, length);
         source.remove_prefix(length);
         position += length;
         column += length;

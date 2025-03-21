@@ -12,6 +12,7 @@ set(TEST_TARGET patchjson_tests)
 project(${TEST_TARGET})
 
 add_executable(${TEST_TARGET}
+    find_tests.cpp
     patchjson_tests.cpp
     json_object_tests.cpp
     json_path_tests.cpp

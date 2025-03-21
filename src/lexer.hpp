@@ -19,9 +19,9 @@ namespace patchjson
         Lexer(std::string_view source) : source(source) {}
 
         std::vector<Token> tokenize();
+        Token nextToken();
 
     private:
-        Token nextToken();
         bool isAtEnd() const;
         void consumeWhitespaces();
 
@@ -30,8 +30,7 @@ namespace patchjson
         Token readStringToken();
         Token readNumberToken();
 
-        std::string consume(const std::string_view);
-        std::string consume(size_t length);
+        std::string_view consume(size_t length);
 
         size_t line = 1;
         size_t column = 1;

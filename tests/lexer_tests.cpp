@@ -46,10 +46,18 @@ TEST(LexerTests, Comma)
     ASSERT_THAT(tokens.at(0), matchesToken(TokenType::Comma, ",", Eq(std::nullopt)));
 }
 
+MATCHER_P(StringViewEquals, expected, "Matches std::string_view") {
+    return std::string(arg) == std::string(expected);
+}
+
+struct Foo {
+    bool operator==(const Foo&) const { return true; }
+};
+
 TEST(LexerTests, String)
 {
     auto tokens = Lexer{"\"foo\""}.tokenize();
-    ASSERT_THAT(tokens.at(0), matchesToken(TokenType::String, "\"foo\"", Optional(VariantWith<std::string>("foo"))));
+    ASSERT_THAT(tokens.at(0), matchesToken(TokenType::String, "\"foo\"", Optional(patchjson::Literal{"foo"})));
 }
 
 TEST(LexerTests, True)
@@ -101,9 +109,9 @@ TEST(LexerTests, SimpleObject)
     auto tokens = Lexer{source}.tokenize();
 
     ASSERT_THAT(tokens.at(0), matchesToken(TokenType::OpenBrace, "{"));
-    ASSERT_THAT(tokens.at(1), matchesToken(TokenType::String, "\"foo\"", Optional(std::string("foo"))));
+    ASSERT_THAT(tokens.at(1), matchesToken(TokenType::String, "\"foo\"", Optional(std::string_view("foo"))));
     ASSERT_THAT(tokens.at(2), matchesToken(TokenType::Colon, ":"));
-    ASSERT_THAT(tokens.at(3), matchesToken(TokenType::String, "\"bar\"", Optional(std::string("bar"))));
+    ASSERT_THAT(tokens.at(3), matchesToken(TokenType::String, "\"bar\"", Optional(std::string_view("bar"))));
     ASSERT_THAT(tokens.at(4), matchesToken(TokenType::CloseBrace, "}"));
 
     ASSERT_THAT(tokens.at(5), matchesToken(TokenType::EndOfFile, ""));
@@ -134,7 +142,7 @@ TEST(LexerTests, Multiline)
     ASSERT_THAT(tokens.at(0), matchesToken(TokenType::Number, "123", Optional(123.0), 0));
     ASSERT_THAT(tokens.at(1), matchesToken(TokenType::Number, "-456.5", Optional(-456.5), 4));
     ASSERT_THAT(tokens.at(2), matchesToken(TokenType::OpenBracket, "[", Eq(std::nullopt), 12));
-    ASSERT_THAT(tokens.at(3), matchesToken(TokenType::String, "\"foo\"", Optional(std::string{"foo"}), 14));
+    ASSERT_THAT(tokens.at(3), matchesToken(TokenType::String, "\"foo\"", Optional(std::string_view{"foo"}), 14));
     ASSERT_THAT(tokens.at(4), matchesToken(TokenType::CloseBracket, "]", Eq(std::nullopt), 19));
     ASSERT_THAT(tokens.at(5), matchesToken(TokenType::Colon, ":", Eq(std::nullopt), 20));
     ASSERT_THAT(tokens.at(6), matchesToken(TokenType::EndOfFile, "", Eq(std::nullopt), 23));

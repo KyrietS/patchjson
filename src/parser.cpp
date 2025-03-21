@@ -36,10 +36,10 @@ namespace
 
         while (not match(TokenType::CloseBrace))
         {
-            std::string key = std::get<std::string>(consume(TokenType::String).literal.value());
+            std::string_view key = std::get<std::string_view>(consume(TokenType::String).literal.value());
             consume(TokenType::Colon);
             JsonValue value = parseValue();
-            object.add(std::move(key), std::move(value));
+            object.add(std::string{key}, std::move(value));
 
             if (match(TokenType::Comma))
             {

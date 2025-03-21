@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <list>
 
 #include "json_object.hpp"
 #include "utils/token_utils.hpp"
@@ -15,32 +16,35 @@ Matcher<const JsonValue&> IsJsonObject()
 }
 }
 
-JsonValue makeValue(double value)
+struct JsonValueTests : public Test
 {
-    return JsonValue{Token{TokenType::Number, std::to_string(value), value, 0}};
-}
-JsonValue makeValue(const std::string& value)
-{
-    return JsonValue{Token{TokenType::String, "\"" + value + "\"", value, 0}};
-}
-JsonValue makeValue(const char* value)
-{
-    return makeValue(std::string{value});
-}
-JsonValue makeValue(bool value)
-{
-    return JsonValue{Token{value ? TokenType::True : TokenType::False, value ? "true" : "false", value, 0}};
-}
-JsonValue makeValue(std::nullptr_t)
-{
-    return JsonValue{Token{TokenType::Null, "null", {}, 0}};
-}
-JsonValue makeValue(std::unique_ptr<JsonObject> value)
-{
-    return JsonValue{token_utils::openBraceToken, std::move(value)};
-}
+    JsonValue makeValue(double value)
+    {
+        lexemes.emplace_back(std::to_string(value));
+        return JsonValue{Token{TokenType::Number, lexemes.back(), value, 0}};
+    }
+    JsonValue makeValue(const char* value)
+    {
+        lexemes.emplace_back("\"" + std::string{value} + "\"");
+        return JsonValue{Token{TokenType::String, lexemes.back(), value, 0}};
+    }
+    JsonValue makeValue(bool value)
+    {
+        return JsonValue{Token{value ? TokenType::True : TokenType::False, value ? "true" : "false", value, 0}};
+    }
+    JsonValue makeValue(std::nullptr_t)
+    {
+        return JsonValue{Token{TokenType::Null, "null", {}, 0}};
+    }
+    JsonValue makeValue(std::unique_ptr<JsonObject> value)
+    {
+        return JsonValue{token_utils::openBraceToken, std::move(value)};
+    }
 
-TEST(JsonValueTests, StringValue)
+    std::list<std::string> lexemes;
+};
+
+TEST_F(JsonValueTests, StringValue)
 {
     Token stringToken{TokenType::String, "\"foo\"", "foo", 0};
     JsonValue value{stringToken};
@@ -48,7 +52,7 @@ TEST(JsonValueTests, StringValue)
     EXPECT_EQ(value, "foo");
 }
 
-TEST(JsonValueTests, NumberValue)
+TEST_F(JsonValueTests, NumberValue)
 {
     Token numberToken{TokenType::Number, "0.5", 0.5, 0};
     JsonValue value{numberToken};
@@ -56,7 +60,7 @@ TEST(JsonValueTests, NumberValue)
     EXPECT_EQ(value, 0.5);
 }
 
-TEST(JsonValueTests, BooleanValue)
+TEST_F(JsonValueTests, BooleanValue)
 {
     Token trueToken{TokenType::True, "true", true, 0};
     JsonValue value{trueToken};
@@ -64,7 +68,7 @@ TEST(JsonValueTests, BooleanValue)
     EXPECT_EQ(value, true);
 }
 
-TEST(JsonValueTests, NullValue)
+TEST_F(JsonValueTests, NullValue)
 {
     Token nullToken{TokenType::Null, "null", {}, 0};
     JsonValue value{nullToken};
@@ -72,7 +76,7 @@ TEST(JsonValueTests, NullValue)
     EXPECT_EQ(value, nullptr);
 }
 
-TEST(JsonValueTests, ObjectValue)
+TEST_F(JsonValueTests, ObjectValue)
 {
     Token openBraceToken{TokenType::OpenBrace, "{", {}, 0};
     JsonValue value{openBraceToken, std::make_unique<JsonObject>()};
@@ -80,14 +84,16 @@ TEST(JsonValueTests, ObjectValue)
     EXPECT_THAT(value.getObject(), IsEmpty());
 }
 
-TEST(JsonObjectTests, EmptyObject)
+struct JsonObjectTests : JsonValueTests {};
+
+TEST_F(JsonObjectTests, EmptyObject)
 {
     JsonObject object{};
     EXPECT_THAT(object, IsEmpty());
     EXPECT_THAT(object, SizeIs(0));
 }
 
-TEST(JsonObjectTests, ObjectWithMemberValues)
+TEST_F(JsonObjectTests, ObjectWithMemberValues)
 {
     JsonObject object{};
     object.add("key1", makeValue("foo"));
@@ -106,7 +112,7 @@ TEST(JsonObjectTests, ObjectWithMemberValues)
     EXPECT_EQ(object.at("key4"), nullptr);
 }
 
-TEST(JsonObjectTests, ObjectWithMemberObject)
+TEST_F(JsonObjectTests, ObjectWithMemberObject)
 {
     JsonObject nestedObject{};
     nestedObject.add("key", makeValue(123.0));
@@ -120,7 +126,7 @@ TEST(JsonObjectTests, ObjectWithMemberObject)
     EXPECT_EQ(object.at("nested").getObject().at("key"), 123.0);
 }
 
-TEST(JsonObjectTests, ObjectArray)
+TEST_F(JsonObjectTests, ObjectArray)
 {
     JsonObject array{};
     array.add("key1", makeValue("foo"));

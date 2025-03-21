@@ -3,6 +3,7 @@
 #include <variant>
 #include <optional>
 #include <format>
+#include <string_view>
 
 namespace patchjson
 {
@@ -25,8 +26,8 @@ namespace patchjson
 
 
 
-    using Lexeme = std::string;
-    using Literal = std::optional<std::variant<std::string, double, bool>>;
+    using Lexeme = std::string_view;
+    using Literal = std::optional<std::variant<std::string_view, double, bool>>;
 
     struct Token
     {

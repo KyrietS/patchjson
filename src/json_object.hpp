@@ -38,7 +38,7 @@ namespace patchjson
         bool isArray() const { return token.type == TokenType::OpenBracket and object != nullptr; }
         bool isObjectOrArray() const { return isObject() or isArray(); }
 
-        JsonStringType getString() const { expect(isString()); return std::get<std::string>(token.literal.value()); }
+        JsonStringType getString() const { expect(isString()); return std::string{std::get<std::string_view>(token.literal.value())}; }
         JsonNumberType getNumber() const { expect(isNumber()); return std::get<double>(token.literal.value()); }
         JsonBooleanType getBoolean() const { expect(isBoolean()); return std::get<bool>(token.literal.value()); }
         JsonNullType getNull() const { expect(isNull()); return nullptr; }
