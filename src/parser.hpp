@@ -1,6 +1,6 @@
 #pragma once
 #include "json_object.hpp"
-#include "lexer.hpp"
+#include "token.hpp"
 #include <stdexcept>
 #include <span>
 

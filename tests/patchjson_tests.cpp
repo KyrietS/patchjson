@@ -9,6 +9,13 @@ TEST(PatchjsonTests, PatchNumber)
     EXPECT_EQ(patchedContent, R"({ "number": 456 })");
 }
 
+TEST(PatchjsonTests, PatchNumberInArray)
+{
+    std::string content = R"({ "arr": [1, 2, 3] })";
+    std::string patchedContent = patchjson::patchContent(content, "/arr/1", "456");
+    EXPECT_EQ(patchedContent, R"({ "arr": [1, 456, 3] })");
+}
+
 // TODO: Write a proper big json file test (benchmark)
 TEST(PatchjsonTests, DISABLED_PatchNumberInFile)
 {
