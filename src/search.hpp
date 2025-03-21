@@ -15,12 +15,20 @@ namespace patchjson
 
     private:
         Token searchObject(std::span<const std::string> path);
+        Token searchArray(std::span<const std::string> path);
+        Token searchValue(std::span<const std::string> path);
+        Token getValue();
+
+        void ignoreObject();
+        void ignoreArray();
+        void ignoreValue();
+
 
         Token consume(TokenType type);
         Token peek() const;
         bool match(TokenType type) const;
 
         Lexer lexer;
-        Token nextToken{};
+        Token nextToken {};
     };
 }
