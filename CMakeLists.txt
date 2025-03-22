@@ -2,20 +2,12 @@ cmake_minimum_required(VERSION 3.11)
 
 project(patchjson)
 
+option(BUILD_APP "Build app" ON)
+option(BUILD_TESTS "Build tests" ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-file(GLOB_RECURSE SOURCES
-    "src/*.cpp"
-    "src/*.hpp"
-    "include/*.hpp"
-)
-add_library(patchjson STATIC ${SOURCES})
-target_include_directories(patchjson PUBLIC include/)
-target_compile_features(patchjson PRIVATE cxx_std_23)
+add_subdirectory(lib)
 
-# Option to build tests
-option(TESTS "Build tests" ON)
-
-if(TESTS)
-    add_subdirectory(tests)
+if(BUILD_APP)
+    add_subdirectory(app)
 endif()

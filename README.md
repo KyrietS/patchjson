@@ -38,16 +38,14 @@ target_link_libraries(your_target patchjson)
 
 ## Project structure
 - **(Library)** libpatchjson: utilities for patching JSON files.
-- **(Library)** libpatchjson_cli: command line interface to libpatchjson.
 - **(Executable)** patchjson: executable for libpatchjson_cli.
 
 **Tests**
 - **(Executable)** patchjson_tests: Tests for libpatchjson.
-- **(Executable)** patchjson_cli_tests: Tests for libpatchjson_cli.
 
 ## Tests
 ```
-cmake .. -DTESTS=ON
+cmake .. -DBUILD_TESTS=ON
 ```
 
 ## License

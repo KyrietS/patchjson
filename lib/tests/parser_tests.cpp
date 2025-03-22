@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "utils/token_utils.hpp"
-
+#include "lexer.hpp"
 #include "parser.hpp"
 
 using namespace testing;
