@@ -6,7 +6,7 @@ FetchContent_Declare(
     GIT_TAG        v1.16.0
 )
 
-set(TEST_TARGET libpatchjson_tests)
+set(TEST_TARGET patchjson_tests)
 
 add_executable(${TEST_TARGET}
     patchjson_tests.cpp
@@ -22,7 +22,7 @@ add_executable(${TEST_TARGET}
 )
 
 target_include_directories(${TEST_TARGET} PRIVATE ../src) # Allow testing of internal functions
-target_link_libraries(${TEST_TARGET} libpatchjson)
+target_link_libraries(${TEST_TARGET} patchjson)
 target_compile_features(${TEST_TARGET} PRIVATE cxx_std_23)
 
 # Google Test

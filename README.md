@@ -19,7 +19,7 @@ Example:
 ```
 
 
-## Using library libpatchjson in your project
+## Using library patchjson in your project
 
 Use FetchContent to include patchjson in your project.
 ```cmake
@@ -30,21 +30,21 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 FetchContent_MakeAvailable(patchjson)
-target_link_libraries(your_target libpatchjson)
+target_link_libraries(your_target patchjson)
 ```
 
 or include it as a subdirectory after cloning the repository.
 ```cmake
 add_subdirectory(patchjson)
-target_link_libraries(your_target libpatchjson)
+target_link_libraries(your_target patchjson)
 ```
 
 ## Project structure
 - `app/` - Source files for patchjson. **(Executable)**
-- `lib/` - Source files for libpatchjson. **(Static library)**
+- `lib/` - Source files for patchjson. **(Static library)**
 
 **Unit tests**
-- `lib/tests/` - Source files for libpatchjson_tests. **(Executable)**
+- `lib/tests/` - Source files for patchjson_tests. **(Executable)**
 
 ## Tests
 ```
