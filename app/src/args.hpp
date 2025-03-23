@@ -12,5 +12,6 @@ namespace patchjson_app
         std::optional<std::string> path {};
         std::optional<std::string> replacement {};
         bool help {};
+        bool version {};
     };
 }

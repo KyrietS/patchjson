@@ -1,6 +1,7 @@
 #include <iostream>
 #include <patchjson/patchjson.hpp>
 #include "args.hpp"
+#include "version.hpp"
 
 using namespace patchjson_app;
 
@@ -14,7 +15,8 @@ void printHelp()
     std::cout << "VALUE   New value to set." << std::endl;
     std::cout << std::endl;
     std::cout << "Options:" << std::endl;
-    std::cout << "  -h, --help  Display help information" << std::endl;
+    std::cout << "  --version  Display help information" << std::endl;
+    std::cout << "  --help  Display help information" << std::endl;
     std::cout << std::endl;
     std::cout << "Example:" << std::endl;
     std::cout << "  patchjson file.json /foo/bar 123" << std::endl;
@@ -27,6 +29,11 @@ int main(int argc, char* argv[])
     if (args.help)
     {
         printHelp();
+        return 0;
+    }
+    if (args.version)
+    {
+        std::cout << "patchjson " << VERSION << std::endl;
         return 0;
     }
 

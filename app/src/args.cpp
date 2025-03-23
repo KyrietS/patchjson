@@ -23,9 +23,13 @@ namespace patchjson_app
 
         for (std::string_view arg : args)
         {
-            if (arg == "-h" or arg == "--help")
+            if (arg == "--help")
             {
                 help = true;
+            }
+            else if (arg == "--version")
+            {
+                version = true;
             }
             else
             {
