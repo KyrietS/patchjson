@@ -7,9 +7,10 @@
 
 namespace patchjson
 {
-    struct ParsingError : std::runtime_error
+    struct ParserError : std::runtime_error
     {
-        using std::runtime_error::runtime_error;
+        ParserError(const std::string& message, std::optional<Token> token = std::nullopt) : std::runtime_error(message), token(token) {}
+        std::optional<Token> token;
     };
 
     class Parser

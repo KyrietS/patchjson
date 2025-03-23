@@ -16,13 +16,6 @@ struct ParserTests : public Test
         auto parser = Parser{tokens};
         return parser.parse();
     }
-
-    void expectParsingError(std::string_view source)
-    {
-        auto tokens = Lexer{source}.tokenize();
-        auto parser = Parser{tokens};
-        EXPECT_THROW(parser.parse(), ParsingError);
-    }
 };
 
 TEST_F(ParserTests, EmptyObject)
@@ -36,7 +29,7 @@ TEST_F(ParserTests, EmptyObject)
 
 TEST_F(ParserTests, InvalidObject)
 {
-    EXPECT_THROW(parseObject("{"), ParsingError);
+    EXPECT_THROW(parseObject("{"), ParserError);
 }
 
 TEST_F(ParserTests, ObjectWithOneMember)
@@ -179,4 +172,37 @@ TEST_F(PathTests, MemberInObjectInArrayFindByPath)
     const auto& found = object.find(JsonPath{"/foo/1/bar"});
 
     EXPECT_EQ(found, 123.0);
+}
+
+struct ParserErrorTests : ParserTests
+{
+    void expectParserError(std::string_view source, Matcher<std::string> message, Matcher<std::optional<Token>> token = _)
+    {
+        auto tokens = Lexer{source}.tokenize();
+        auto parser = Parser{tokens};
+        try
+        {
+            parser.parse();
+            FAIL() << "Expected ParserError";
+        }
+        catch(const ParserError& error)
+        {
+            EXPECT_THAT(error.what(), message);
+            EXPECT_THAT(error.token, token);
+        }
+        catch (...)
+        {
+            FAIL() << "Expected ParserError";
+        }
+    }
+};
+
+TEST_F(ParserErrorTests, UnexpectedTokenEOF)
+{
+    expectParserError("{", StartsWith("Unexpected token"), Optional(matchesToken(TokenType::EndOfFile, _, _)));
+}
+
+TEST_F(ParserErrorTests, UnexpectedTokenNumber)
+{
+    expectParserError("{ 123: 321 }", StartsWith("Unexpected token"), Optional(matchesToken(TokenType::Number, "123", Optional(123.0))));
 }

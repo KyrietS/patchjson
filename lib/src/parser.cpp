@@ -86,7 +86,8 @@ namespace
         }
         else
         {
-            throw ParsingError("Unexpected token");
+            const Token& token = peek();
+            throw ParserError(std::format("Unexpected token at line: {}, column: {}", token.line, token.column), token);
         }
     }
 
@@ -120,7 +121,8 @@ namespace
     {
         if (nextToken >= tokens.size())
         {
-            throw ParsingError("Unexpected end of input");
+            std::optional<Token> token = nextToken > 0 ? std::make_optional(tokens[nextToken - 1]) : std::nullopt;
+            throw ParserError("Unexpected end of input", token);
         }
 
         return tokens[nextToken];
@@ -131,7 +133,7 @@ namespace
         const auto& token = peek();
         if (token.type != type)
         {
-            throw ParsingError(std::format("Unexpected token at offset: {}. Expected: '{}', but got: '{}'", token.position, type, token.lexeme));
+            throw ParserError(std::format("Unexpected token at line: {}, column: {}. Expected: '{}', but got: '{}'", token.line, token.column, type, token.lexeme), token);
         }
 
         return tokens[nextToken++];
