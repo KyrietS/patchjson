@@ -1,5 +1,10 @@
 # patchjson
 
+[![Build](https://github.com/KyrietS/patchjson/actions/workflows/build.yml/badge.svg)](https://github.com/KyrietS/patchjson/actions/workflows/build.yml)
+[![Tests](https://github.com/KyrietS/patchjson/actions/workflows/tests.yml/badge.svg)](https://github.com/KyrietS/patchjson/actions/workflows/tests.yml)
+[![Lincense](https://img.shields.io/github/license/KyrietS/patchjson)](LICENSE)
+[![patchjson release](https://img.shields.io/github/v/release/KyrietS/patchjson?include_prereleases&sort=semver)](https://github.com/KyrietS/patchjson/releases)
+
 patchjson is a small utility for modifying values in JSON files. It does not change the structure or formatting of the JSON file. It only changes the values that are already present.
 
 ## Usage
