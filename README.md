@@ -4,15 +4,18 @@ patchjson is a small utility to modify values in JSON files. It does not change 
 
 ## Usage
 ```
-Usage: patchjson [options] FILE PATH VALUE [PATH VALUE ...]
+Usage: patchjson [options] FILE PATH VALUE
 Patch JSON file with new values.
 
-  FILE    JSON file to patch.
-  PATH    JSON Pointer notation to the value to change (RFC 6901).
-  VALUE   New value to set.
+FILE    JSON file to patch.
+PATH    JSON Pointer notation to the value to change (RFC 6901).
+VALUE   New value to set.
+
+Options:
+  -h, --help  Display help information
 
 Example:
-  patchjson file.json /key1 111 /key2/key3 222
+  patchjson file.json /foo/bar 123
 ```
 
 
@@ -27,21 +30,21 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 FetchContent_MakeAvailable(patchjson)
-target_link_libraries(your_target patchjson)
+target_link_libraries(your_target libpatchjson)
 ```
 
 or include it as a subdirectory after cloning the repository.
 ```cmake
 add_subdirectory(patchjson)
-target_link_libraries(your_target patchjson)
+target_link_libraries(your_target libpatchjson)
 ```
 
 ## Project structure
-- **(Library)** libpatchjson: utilities for patching JSON files.
-- **(Executable)** patchjson: executable for libpatchjson_cli.
+- `app/` - Source files for patchjson. **(Executable)**
+- `lib/` - Source files for libpatchjson. **(Static library)**
 
-**Tests**
-- **(Executable)** patchjson_tests: Tests for libpatchjson.
+**Unit tests**
+- `lib/tests/` - Source files for libpatchjson_tests. **(Executable)**
 
 ## Tests
 ```

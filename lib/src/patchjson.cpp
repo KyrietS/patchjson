@@ -4,6 +4,7 @@
 #include "search.hpp"
 #include "lexer.hpp"
 #include "token.hpp"
+#include <iostream>
 
 namespace patchjson
 {
@@ -62,6 +63,12 @@ namespace
     void patchFile(const std::filesystem::path& path, const std::string& pathToValue, const std::string& replacement)
     {
         std::ifstream input{path};
+
+        if (not input.is_open())
+        {
+            throw std::runtime_error{"Failed to open file: " + path.string()};
+        }
+
         std::stringstream buffer;
         buffer << input.rdbuf();
         std::string patchedContent = patchContent(buffer.str(), pathToValue, replacement);

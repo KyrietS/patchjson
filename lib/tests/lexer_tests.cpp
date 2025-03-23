@@ -14,6 +14,9 @@ TEST(LexerTests, EmptySource)
     auto tokens = Lexer{""}.tokenize();
     ASSERT_THAT(tokens, SizeIs(1));
     ASSERT_THAT(tokens.at(0), matchesToken(TokenType::EndOfFile, ""));
+
+    auto token = Lexer{""}.nextToken();
+    ASSERT_THAT(token, matchesToken(TokenType::EndOfFile));
 }
 
 TEST(LexerTests, OpenBrace)
