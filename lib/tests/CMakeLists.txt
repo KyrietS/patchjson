@@ -18,6 +18,7 @@ add_executable(${TEST_TARGET}
     search_tests.cpp
 
     utils/token_utils.cpp
+    utils/token_utils.hpp
 )
 
 target_include_directories(${TEST_TARGET} PRIVATE ../src) # Allow testing of internal functions
