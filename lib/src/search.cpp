@@ -44,7 +44,7 @@ namespace patchjson
             }
         }
         consume(TokenType::CloseBrace);
-        throw std::runtime_error(std::format("Key '{}' not found", path[0]));
+        throw SearchError(std::format("Key '{}' not found", path[0]), beginObject);
     }
 
     Token Search::searchArray(std::span<const std::string> path)
@@ -75,7 +75,7 @@ namespace patchjson
             index++;
         }
 
-        throw std::runtime_error(std::format("Index '{}' not found", path[0]));
+        throw SearchError(std::format("Index '{}' not found", path[0]), beginArray);
     }
 
     Token Search::searchValue(std::span<const std::string> path)
@@ -94,7 +94,7 @@ namespace patchjson
         }
         else
         {
-            throw std::runtime_error(std::format("Key '{}' not found", path[0]));
+            throw SearchError(std::format("Path unexpectedly ended at: '{}'", path[0]), peek());
         }
     }
 
@@ -122,7 +122,7 @@ namespace patchjson
         }
         else
         {
-            throw std::runtime_error(std::format("Unexpected token: '{}'", nextToken.lexeme));
+            throw SearchError(std::format("Unexpected token: '{}' ({})", nextToken.lexeme, nextToken.type), nextToken);
         }
     }
 
@@ -177,7 +177,7 @@ namespace patchjson
         Token token = nextToken;
         if (token.type != type)
         {
-            throw std::runtime_error("Unexpected token");
+            throw SearchError(std::format("Unexpected token at line: {}, column: {}. Expected: {}, but got: {}", token.line, token.column, type, token.type), token);
         }
         nextToken = lexer.nextToken();
         return token;

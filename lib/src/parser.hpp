@@ -3,6 +3,7 @@
 #include "token.hpp"
 #include <stdexcept>
 #include <span>
+#include <optional>
 
 
 namespace patchjson

@@ -63,3 +63,48 @@ TEST_F(SearchTests, SkipObjectMemberWhenNoMatch)
 
     EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0)));
 }
+
+struct SearchErrorTests : SearchTests
+{
+    void expectSearchError(std::string_view source, const char* path, Matcher<std::string> message, Matcher<std::optional<Token>> token = _)
+    {
+        try
+        {
+            findValue(source, path);
+            FAIL() << "SearchError exception was not thrown";
+        }
+        catch(const SearchError& error)
+        {
+            EXPECT_THAT(error.what(), message);
+            EXPECT_THAT(error.token, token);
+        }
+        catch (...)
+        {
+            FAIL() << "Exception other than SearchError was thrown";
+        }
+    }
+};
+
+TEST_F(SearchErrorTests, KeyNotFound)
+{
+    std::string source = R"({ "foo": 123 })";
+    expectSearchError(source, "/bar", Eq("Key 'bar' not found"));
+}
+
+TEST_F(SearchErrorTests, IndexNotFound)
+{
+    std::string source = R"({ "foo": [1, 2, 3] })";
+    expectSearchError(source, "/foo/3", Eq("Index '3' not found"));
+}
+
+TEST_F(SearchErrorTests, UnexpectedEndOfPath)
+{
+    std::string source = R"({ "foo": 123 })";
+    expectSearchError(source, "/foo/bar", Eq("Path unexpectedly ended at: 'bar'"));
+}
+
+TEST_F(SearchErrorTests, UnexpectedToken)
+{
+    std::string source = R"({ "foo": ] })";
+    expectSearchError(source, "/foo", StartsWith("Unexpected token: ']'"));
+}
