@@ -1,6 +1,6 @@
 # patchjson
 
-patchjson is a small utility to modify values in JSON files. It does not change the structure nor the formatting of the JSON file. Only the values that are already present can be changed.
+patchjson is a small utility for modifying values in JSON files. It does not change the structure or formatting of the JSON file. It only changes the values that are already present.
 
 ## Usage
 ```
