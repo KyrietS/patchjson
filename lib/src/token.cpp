@@ -10,15 +10,16 @@ namespace patchjson
         {
         case TokenType::OpenBrace: return "OpenBrace";
         case TokenType::CloseBrace: return "CloseBrace";
-        case TokenType::String: return "String";
-        case TokenType::Colon: return "Colon";
         case TokenType::OpenBracket: return "OpenBracket";
         case TokenType::CloseBracket: return "CloseBracket";
+        case TokenType::Colon: return "Colon";
         case TokenType::Comma: return "Comma";
+        case TokenType::String: return "String";
         case TokenType::Number: return "Number";
         case TokenType::True: return "True";
         case TokenType::False: return "False";
         case TokenType::Null: return "Null";
+        case TokenType::EndOfFile: return "EndOfFile";
         default: return "Unknown";
         }
     }
