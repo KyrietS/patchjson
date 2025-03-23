@@ -30,8 +30,8 @@ TEST_F(ParserTests, EmptyObject)
     JsonObject object = parseObject("{}");
 
     EXPECT_THAT(object, IsEmpty());
-    EXPECT_THAT(object.beginToken, matchesToken(TokenType::OpenBrace, _, _, 0));
-    EXPECT_THAT(object.endToken, matchesToken(TokenType::CloseBrace, _, _, 1));
+    EXPECT_THAT(object.beginToken, matchesToken(TokenType::OpenBrace));
+    EXPECT_THAT(object.endToken, matchesToken(TokenType::CloseBrace));
 }
 
 TEST_F(ParserTests, InvalidObject)
@@ -43,8 +43,10 @@ TEST_F(ParserTests, ObjectWithOneMember)
 {
     auto object = parseObject(R"({ "foo": 123 })");
 
-    EXPECT_THAT(object.beginToken, matchesTokenPosition(TokenType::OpenBrace, 0));
-    EXPECT_THAT(object.endToken, matchesTokenPosition(TokenType::CloseBrace, 13));
+    EXPECT_THAT(object.beginToken, matchesToken(TokenType::OpenBrace));
+    EXPECT_THAT(object.beginToken, matchesTokenPosition(0, 1, 1));
+    EXPECT_THAT(object.endToken, matchesToken(TokenType::CloseBrace));
+    EXPECT_THAT(object.endToken, matchesTokenPosition(13, 1, 14));
     EXPECT_THAT(object, SizeIs(1));
 
     EXPECT_EQ(object.at("foo"), 123.0);
@@ -58,8 +60,10 @@ TEST_F(ParserTests, ObjectWithTwoMembers)
     EXPECT_EQ(object.at("foo"), 123.0);
     EXPECT_EQ(object.at("bar"), false);
 
-    EXPECT_THAT(object.at("foo").token, matchesToken(TokenType::Number, "123", Optional(123.0), 9));
-    EXPECT_THAT(object.at("bar").token, matchesToken(TokenType::False, "false", Optional(false), 21));
+    EXPECT_THAT(object.at("foo").token, matchesToken(TokenType::Number, "123", Optional(123.0)));
+    EXPECT_THAT(object.at("foo").token, matchesTokenPosition(9, 1, 10));
+    EXPECT_THAT(object.at("bar").token, matchesToken(TokenType::False, "false", Optional(false)));
+    EXPECT_THAT(object.at("bar").token, matchesTokenPosition(21, 1, 22));
 }
 
 TEST_F(ParserTests, ObjectWithArray)

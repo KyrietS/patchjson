@@ -145,13 +145,13 @@ TEST(LexerTests, Multiline)
 {
     auto tokens = Lexer{"123\n-456.5\r\n[ \"foo\"]: \n"}.tokenize();
 
-    ASSERT_THAT(tokens.at(0), matchesToken(TokenType::Number, "123", Optional(123.0), 0));
-    ASSERT_THAT(tokens.at(1), matchesToken(TokenType::Number, "-456.5", Optional(-456.5), 4));
-    ASSERT_THAT(tokens.at(2), matchesToken(TokenType::OpenBracket, "[", Eq(std::nullopt), 12));
-    ASSERT_THAT(tokens.at(3), matchesToken(TokenType::String, "\"foo\"", Optional(std::string_view{"foo"}), 14));
-    ASSERT_THAT(tokens.at(4), matchesToken(TokenType::CloseBracket, "]", Eq(std::nullopt), 19));
-    ASSERT_THAT(tokens.at(5), matchesToken(TokenType::Colon, ":", Eq(std::nullopt), 20));
-    ASSERT_THAT(tokens.at(6), matchesToken(TokenType::EndOfFile, "", Eq(std::nullopt), 23));
+    ASSERT_THAT(tokens.at(0), AllOf(matchesToken(TokenType::Number, "123", Optional(123.0)), matchesTokenPosition(0, 1, 1)));
+    ASSERT_THAT(tokens.at(1), AllOf(matchesToken(TokenType::Number, "-456.5", Optional(-456.5)), matchesTokenPosition(4, 2, 1)));
+    ASSERT_THAT(tokens.at(2), AllOf(matchesToken(TokenType::OpenBracket, "[", Eq(std::nullopt)), matchesTokenPosition(12, 3, 1)));
+    ASSERT_THAT(tokens.at(3), AllOf(matchesToken(TokenType::String, "\"foo\"", Optional(std::string_view{"foo"})), matchesTokenPosition(14, 3, 3)));
+    ASSERT_THAT(tokens.at(4), AllOf(matchesToken(TokenType::CloseBracket, "]", Eq(std::nullopt)), matchesTokenPosition(19, 3, 8)));
+    ASSERT_THAT(tokens.at(5), AllOf(matchesToken(TokenType::Colon, ":", Eq(std::nullopt)), matchesTokenPosition(20, 3, 9)));
+    ASSERT_THAT(tokens.at(6), AllOf(matchesToken(TokenType::EndOfFile, "", Eq(std::nullopt)), matchesTokenPosition(23, 4, 1)));
 }
 
 struct LexerErrorTests : Test

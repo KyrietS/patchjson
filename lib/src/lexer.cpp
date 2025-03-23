@@ -32,7 +32,7 @@ namespace patchjson
 
         if (tokens.empty() or tokens.back().type != TokenType::EndOfFile)
         {
-            tokens.push_back(Token { .type = TokenType::EndOfFile, .lexeme = {}, .literal = {}, .position = position });
+            tokens.push_back(consumeToken(TokenType::EndOfFile, {}));
         }
 
         return tokens;
@@ -44,7 +44,7 @@ namespace patchjson
 
         if (isAtEnd())
         {
-            return Token { .type = TokenType::EndOfFile, .lexeme = {}, .literal = {}, .position = position };
+            return consumeToken(TokenType::EndOfFile, {});
         }
 
         char firstChar = source.front();
@@ -129,11 +129,7 @@ namespace patchjson
             throw LexerError { "Unexpected token", line, column };
         }
 
-        Token token { type };
-        token.position = position;
-        token.lexeme = consume(expectedLexeme.size());
-        token.literal = literal;
-        return token;
+        return consumeToken(type, expectedLexeme.size(), literal);
     }
 
 
@@ -156,28 +152,37 @@ namespace patchjson
             length++;
         }
 
-        Token token { TokenType::String };
-        token.position = position;
-        token.lexeme = consume(length + 2); // consume opening and closing quotes
-        token.literal = token.lexeme.substr(1, token.lexeme.size() - 2); // remove quotes
-        return token;
+        std::string_view literal = source.substr(1, length);
+        return consumeToken(TokenType::String, length + 2, literal);
     }
 
     Token Lexer::readNumberToken()
     {
         try
         {
-            Token token { TokenType::Number };
-            token.position = position;
             size_t length = 0;
-            token.literal = toDouble(source, length);
-            token.lexeme = consume(length);
-            return token;
+            double literal = toDouble(source, length);
+            return consumeToken(TokenType::Number, length, literal);
         }
         catch (const std::exception&)
         {
             throw LexerError { "Invalid number", line, column };
         }
+    }
+
+    Token Lexer::consumeToken(TokenType type, size_t lexemeLength, const patchjson::Literal& literal)
+    {
+        Token token {
+            .type = type,
+            .lexeme = {},
+            .literal = literal,
+            .position = position,
+            .line = line,
+            .column = column
+        };
+
+        token.lexeme = consume(lexemeLength);
+        return token;
     }
 
     std::string_view Lexer::consume(size_t length)

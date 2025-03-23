@@ -36,6 +36,8 @@ namespace patchjson
         Literal literal {};
 
         size_t position = 0;
+        size_t line = 0;
+        size_t column = 0;
     };
 
     std::string to_string(TokenType type);

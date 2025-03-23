@@ -19,8 +19,10 @@ namespace
     testing::Matcher<patchjson::Token> matchesToken(
         testing::Matcher<patchjson::TokenType> type,
         testing::Matcher<std::string> lexeme = testing::_,
-        testing::Matcher<patchjson::Literal> literal = testing::_,
-        testing::Matcher<size_t> position = testing::_);
+        testing::Matcher<patchjson::Literal> literal = testing::_);
 
-    testing::Matcher<patchjson::Token> matchesTokenPosition(patchjson::TokenType type, testing::Matcher<size_t> position);
+    testing::Matcher<patchjson::Token> matchesTokenPosition(
+        testing::Matcher<size_t> position,
+        testing::Matcher<size_t> line,
+        testing::Matcher<size_t> column);
 }

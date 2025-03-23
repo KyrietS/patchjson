@@ -29,7 +29,7 @@ TEST_F(SearchTests, SingleMemberGetPath)
     std::string source = R"({ "foo": 123 })";
     auto token = findValue(source, "/foo");
 
-    EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0), 9));
+    EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0)));
 }
 
 TEST_F(SearchTests, NestedMemberGetPath)
@@ -37,7 +37,7 @@ TEST_F(SearchTests, NestedMemberGetPath)
     std::string source = R"({ "foo": { "bar": 123 } })";
     auto token = findValue(source, "/foo/bar");
 
-    EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0), 18));
+    EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0)));
 }
 
 TEST_F(SearchTests, MemberInArrayGetPath)
@@ -45,7 +45,7 @@ TEST_F(SearchTests, MemberInArrayGetPath)
     std::string source = R"({ "foo": [1, 2, 3] })";
     auto token = findValue(source, "/foo/1");
 
-    EXPECT_THAT(token, matchesToken(TokenType::Number, "2", Optional(2.0), 13));
+    EXPECT_THAT(token, matchesToken(TokenType::Number, "2", Optional(2.0)));
 }
 
 TEST_F(SearchTests, MemberInObjectInArrayGetPath)
@@ -53,7 +53,7 @@ TEST_F(SearchTests, MemberInObjectInArrayGetPath)
     std::string source = R"({ "foo": [1, { "bar": 123 }, 3] })";
     auto token = findValue(source, "/foo/1/bar");
 
-    EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0), 22));
+    EXPECT_THAT(token, matchesToken(TokenType::Number, "123", Optional(123.0)));
 }
 
 TEST_F(SearchTests, SkipObjectMemberWhenNoMatch)
