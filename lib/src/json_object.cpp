@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <format>
 #include <cassert>
+#include <algorithm>
 
 namespace patchjson
 {
