@@ -9,6 +9,12 @@ using namespace testing;
 using namespace patchjson;
 using namespace token_utils;
 
+TEST(LexerTests, EmptySource)
+{
+    auto tokens = Lexer{""}.tokenize();
+    ASSERT_THAT(tokens, SizeIs(1));
+    ASSERT_THAT(tokens.at(0), matchesToken(TokenType::EndOfFile, ""));
+}
 
 TEST(LexerTests, OpenBrace)
 {
@@ -146,4 +152,63 @@ TEST(LexerTests, Multiline)
     ASSERT_THAT(tokens.at(4), matchesToken(TokenType::CloseBracket, "]", Eq(std::nullopt), 19));
     ASSERT_THAT(tokens.at(5), matchesToken(TokenType::Colon, ":", Eq(std::nullopt), 20));
     ASSERT_THAT(tokens.at(6), matchesToken(TokenType::EndOfFile, "", Eq(std::nullopt), 23));
+}
+
+struct LexerErrorTests : Test
+{
+    Matcher<LexerError> matchError(Matcher<std::string> message, Matcher<size_t> line, Matcher<size_t> column)
+    {
+        return AllOf(
+            Field("message", &LexerError::message, message),
+            Field("line", &LexerError::line, line),
+            Field("column", &LexerError::column, column)
+        );
+    }
+
+    void expectError(const std::string& source, const Matcher<LexerError>& matcher)
+    {
+        try
+        {
+            Lexer{source}.tokenize();
+            FAIL() << "Expected LexerError";
+        }
+        catch(const LexerError& error)
+        {
+            EXPECT_THAT(error, matcher);
+        }
+        catch (...)
+        {
+            FAIL() << "Expected LexerError";
+        }
+    }
+};
+
+TEST_F(LexerErrorTests, UnexpectedCharacter)
+{
+    expectError("@", matchError(StartsWith("Unexpected character"), 1, 1));
+}
+
+TEST_F(LexerErrorTests, UnexpectedEndOfInput)
+{
+    expectError("tru", matchError(StartsWith("Unexpected end of input"), 1, 1));
+}
+
+TEST_F(LexerErrorTests, UnexpectedEndOfInput_String)
+{
+    expectError("\"", matchError(StartsWith("Unexpected end of input"), 1, 1));
+}
+
+TEST_F(LexerErrorTests, UnexpectedControlCharacter)
+{
+    expectError("\"foo\nbar\"", matchError(StartsWith("Unexpected control character"), 1, 1));
+}
+
+TEST_F(LexerErrorTests, UnexpectedToken)
+{
+    expectError("trux", matchError(StartsWith("Unexpected token"), 1, 1));
+}
+
+TEST_F(LexerErrorTests, InvalidNumber)
+{
+    expectError("--5", matchError(StartsWith("Invalid number"), 1, 1));
 }

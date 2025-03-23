@@ -30,7 +30,7 @@ namespace patchjson
             tokens.push_back(nextToken());
         }
 
-        if (not tokens.empty() and tokens.back().type != TokenType::EndOfFile)
+        if (tokens.empty() or tokens.back().type != TokenType::EndOfFile)
         {
             tokens.push_back(Token { .type = TokenType::EndOfFile, .lexeme = {}, .literal = {}, .position = position });
         }
@@ -85,7 +85,7 @@ namespace patchjson
         default:
             break;
         }
-        throw LexerError { "Unexpected token", line, column };
+        throw LexerError { "Unexpected character", line, column };
     }
 
     bool Lexer::isAtEnd() const
@@ -176,7 +176,7 @@ namespace patchjson
         }
         catch (const std::exception&)
         {
-            throw LexerError { "Invalid number", position };
+            throw LexerError { "Invalid number", line, column };
         }
     }
 
