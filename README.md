@@ -57,7 +57,7 @@ cmake .. -DBUILD_TESTS=ON
 ```
 
 ## License
-Copyright © 2025 KyrietS\
+Copyright © 2025-2026 KyrietS\
 Use of this software is granted under the terms of the MIT License.
 
 See the [LICENSE](LICENSE) file for more details.
