@@ -28,7 +28,6 @@ public:
     bool replacable(const JsonPath& path) const;
 
     /// Gets the source of the document.
-    /// Note: this method will invalidate a reference to JsonObject returned by json().
     const std::string& content() const;
 
 private:
