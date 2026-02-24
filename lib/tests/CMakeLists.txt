@@ -9,12 +9,13 @@ FetchContent_Declare(
 set(TEST_TARGET patchjson_tests)
 
 add_executable(${TEST_TARGET}
-    patchjson_tests.cpp
     json_document_tests.cpp
     json_object_tests.cpp
     json_path_tests.cpp
     lexer_tests.cpp
     parser_tests.cpp
+    patchjson_tests.cpp
+    printer_tests.cpp
     search_tests.cpp
 
     utils/token_utils.cpp
