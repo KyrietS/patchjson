@@ -1,4 +1,4 @@
-#include "token.hpp"
+#include "patchjson/token.hpp"
 #include <ostream>
 
 namespace patchjson

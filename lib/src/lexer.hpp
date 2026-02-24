@@ -1,6 +1,6 @@
 #pragma once
 #include <expected>
-#include "token.hpp"
+#include "patchjson/token.hpp"
 #include <vector>
 #include <stdexcept>
 

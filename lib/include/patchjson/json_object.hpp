@@ -8,8 +8,8 @@
 #include <variant>
 #include <string_view>
 #include <span>
-#include "token.hpp"
-#include "json_path.hpp"
+#include "patchjson/token.hpp"
+#include "patchjson/json_path.hpp"
 
 namespace patchjson
 {

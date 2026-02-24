@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "document.hpp"
+#include "patchjson/document.hpp"
 
 using namespace testing;
 using namespace patchjson;

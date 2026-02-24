@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "json_path.hpp"
+#include "patchjson/json_path.hpp"
 
 using namespace testing;
 using namespace patchjson;

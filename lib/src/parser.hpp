@@ -1,6 +1,6 @@
 #pragma once
-#include "json_object.hpp"
-#include "token.hpp"
+#include "patchjson/json_object.hpp"
+#include "patchjson/token.hpp"
 #include <stdexcept>
 #include <span>
 #include <optional>

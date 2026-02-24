@@ -2,7 +2,7 @@
 #include <memory>
 #include <format>
 #include <variant>
-#include "token.hpp"
+#include "patchjson/token.hpp"
 
 namespace patchjson
 {

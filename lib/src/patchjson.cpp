@@ -3,7 +3,7 @@
 #include <sstream>
 #include "search.hpp"
 #include "lexer.hpp"
-#include "token.hpp"
+#include "patchjson/token.hpp"
 #include <iostream>
 
 namespace patchjson

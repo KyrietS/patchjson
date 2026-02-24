@@ -1,5 +1,5 @@
 #pragma once
-#include "token.hpp"
+#include "patchjson/token.hpp"
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 

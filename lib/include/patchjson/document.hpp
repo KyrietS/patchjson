@@ -2,8 +2,8 @@
 #include <string_view>
 #include <memory>
 #include <unordered_map>
-#include "json_object.hpp"
-#include "json_path.hpp"
+#include "patchjson/json_object.hpp"
+#include "patchjson/json_path.hpp"
 
 namespace patchjson
 {

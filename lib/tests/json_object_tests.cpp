@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include <list>
 
-#include "json_object.hpp"
+#include "patchjson/json_object.hpp"
 #include "utils/token_utils.hpp"
 
 using namespace testing;
