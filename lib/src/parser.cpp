@@ -133,7 +133,7 @@ namespace
         const auto& token = peek();
         if (token.type != type)
         {
-            throw ParserError(std::format("Unexpected token at line: {}, column: {}. Expected: '{}', but got: '{}'", token.line, token.column, type, token.lexeme), token);
+            throw ParserError(std::format("Unexpected token at line: {}, column: {}. Expected: '{}', but got: '{}' ({})", token.line, token.column, type, token.lexeme, token.type), token);
         }
 
         return tokens[nextToken++];
