@@ -1,4 +1,4 @@
-#include "patchjson/document.hpp"
+#include "patchjson/json_document.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 #include <sstream>
@@ -6,7 +6,7 @@
 
 namespace patchjson
 {
-    void Document::load(std::string source)
+    void JsonDocument::load(std::string source)
     {
         this->source = std::move(source);
         Lexer lexer{this->source};
@@ -14,12 +14,12 @@ namespace patchjson
         object = parser.parse();
     }
 
-    const JsonObject& Document::json() const
+    const JsonObject& JsonDocument::json() const
     {
         return object;
     }
 
-    void Document::replace(const JsonPath& path, int newValue)
+    void JsonDocument::replace(const JsonPath& path, int newValue)
     {
         const auto& value = object.find(path);
         if (not value.isNumber())
@@ -41,7 +41,7 @@ namespace patchjson
         load(source);
     }
 
-    bool Document::replacable(const JsonPath& path) const
+    bool JsonDocument::replacable(const JsonPath& path) const
     {
         try
         {
@@ -54,7 +54,7 @@ namespace patchjson
         }
     }
 
-    const std::string& Document::content() const
+    const std::string& JsonDocument::content() const
     {
         return source;
     }

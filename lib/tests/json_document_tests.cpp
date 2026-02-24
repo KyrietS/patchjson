@@ -1,17 +1,17 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "patchjson/document.hpp"
+#include "patchjson/json_document.hpp"
 
 using namespace testing;
 using namespace patchjson;
 
-struct DocumentTests : public Test
+struct JsonDocumentTests : public Test
 {
-    Document document;
+    JsonDocument document;
 };
 
-TEST_F(DocumentTests, EmptyDocument)
+TEST_F(JsonDocumentTests, EmptyDocument)
 {
     document.load("{}");
 
@@ -20,7 +20,7 @@ TEST_F(DocumentTests, EmptyDocument)
     EXPECT_EQ(document.content(), "{}");
 }
 
-TEST_F(DocumentTests, DocumentWithOneMember)
+TEST_F(JsonDocumentTests, DocumentWithOneMember)
 {
     document.load(R"({ "foo": 123 })");
 
@@ -32,7 +32,7 @@ TEST_F(DocumentTests, DocumentWithOneMember)
     EXPECT_EQ(document.content(), R"({ "foo": 123 })");
 }
 
-TEST_F(DocumentTests, CheckIfValuesAreReplacable)
+TEST_F(JsonDocumentTests, CheckIfValuesAreReplacable)
 {
     document.load(R"({ "number": 123, "boolean": true, "string": "foo", "null": null })");
 
@@ -43,7 +43,7 @@ TEST_F(DocumentTests, CheckIfValuesAreReplacable)
     EXPECT_FALSE(document.replacable("/nonexistent/path"));
 }
 
-TEST_F(DocumentTests, ReplaceNumberInObject)
+TEST_F(JsonDocumentTests, ReplaceNumberInObject)
 {
     document.load(R"({ "number": 123 })");
 
@@ -54,7 +54,7 @@ TEST_F(DocumentTests, ReplaceNumberInObject)
     EXPECT_EQ(document.content(), R"({ "number": 456 })");
 }
 
-TEST_F(DocumentTests, ReplaceNumberInArray)
+TEST_F(JsonDocumentTests, ReplaceNumberInArray)
 {
     document.load(R"({ "array": [1, 2, 3] })");
 
@@ -65,7 +65,7 @@ TEST_F(DocumentTests, ReplaceNumberInArray)
     EXPECT_EQ(document.content(), R"({ "array": [1, 4, 3] })");
 }
 
-TEST_F(DocumentTests, ReplaceNumberWithShorterOne)
+TEST_F(JsonDocumentTests, ReplaceNumberWithShorterOne)
 {
     document.load(R"({ "number": 1234 })");
 
@@ -76,7 +76,7 @@ TEST_F(DocumentTests, ReplaceNumberWithShorterOne)
     EXPECT_EQ(document.content(), R"({ "number": 5 })");
 }
 
-TEST_F(DocumentTests, ReplaceNumberWithLongerOne)
+TEST_F(JsonDocumentTests, ReplaceNumberWithLongerOne)
 {
     document.load(R"({ "number": 5 })");
 

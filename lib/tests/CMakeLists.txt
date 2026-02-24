@@ -10,9 +10,9 @@ set(TEST_TARGET patchjson_tests)
 
 add_executable(${TEST_TARGET}
     patchjson_tests.cpp
+    json_document_tests.cpp
     json_object_tests.cpp
     json_path_tests.cpp
-    document_tests.cpp
     lexer_tests.cpp
     parser_tests.cpp
     search_tests.cpp

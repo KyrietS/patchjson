@@ -7,10 +7,10 @@
 
 namespace patchjson
 {
-class Document
+class JsonDocument
 {
 public:
-    Document() = default;
+    JsonDocument() = default;
 
     /// Loads a JSON document from a JSON source.
     /// Note: this method will invalidate a reference to JsonObject returned by json().
