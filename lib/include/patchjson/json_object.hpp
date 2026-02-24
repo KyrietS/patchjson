@@ -47,7 +47,7 @@ namespace patchjson
         bool operator==(const JsonStringType& rhs) const { return isString() && getString() == rhs; }
         bool operator==(const JsonNumberType& rhs) const { return isNumber() && getNumber() == rhs; }
         bool operator==(const JsonBooleanType& rhs) const { return isBoolean() && getBoolean() == rhs; }
-        bool operator==(const JsonNullType& rhs) const { return isNull(); }
+        bool operator==(const JsonNullType&) const { return isNull(); }
 
         JsonPath path() const;
         const JsonValue& find(std::span<const std::string> path) const;
