@@ -112,6 +112,42 @@ TEST_F(JsonObjectTests, ObjectWithMemberValues)
     EXPECT_EQ(object.at("key4"), nullptr);
 }
 
+TEST_F(JsonObjectTests, ObjectIsIterable)
+{
+    JsonObject object{};
+    object.add("key1", makeValue("foo"));
+    object.add("key2", makeValue(0.5));
+    object.add("key3", makeValue(true));
+    object.add("key4", makeValue(nullptr));
+
+    std::vector<std::string> keys;
+    for (auto& [key, value] : object)
+    {
+        keys.push_back(key);
+    }
+
+    EXPECT_THAT(keys, ElementsAre("key1", "key2", "key3", "key4"));
+}
+
+TEST_F(JsonObjectTests, ConstObjectIsIterable)
+{
+    JsonObject object{};
+    object.add("key1", makeValue("foo"));
+    object.add("key2", makeValue(0.5));
+    object.add("key3", makeValue(true));
+    object.add("key4", makeValue(nullptr));
+
+    const JsonObject& constObject = object;
+
+    std::vector<std::string> keys;
+    for (const auto& [key, value] : constObject)
+    {
+        keys.push_back(key);
+    }
+
+    EXPECT_THAT(keys, ElementsAre("key1", "key2", "key3", "key4"));
+}
+
 TEST_F(JsonObjectTests, ObjectWithMemberObject)
 {
     JsonObject nestedObject{};

@@ -99,6 +99,8 @@ namespace patchjson
         bool empty() const { return members.empty(); }
         auto begin() { return members.begin(); }
         auto end() { return members.end(); }
+        auto begin() const { return members.begin(); }
+        auto end() const { return members.end(); }
 
         Token beginToken{};
         Token endToken{};
