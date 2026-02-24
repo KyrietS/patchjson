@@ -27,8 +27,6 @@ namespace patchjson
     public:
         JsonValue(Token token);
         JsonValue(Token token, std::unique_ptr<JsonObject> object);
-        void setLocation(std::string_view location) { this->location = location; }
-        void setParent(JsonValue* parent) { this->parent = parent; }
 
         bool isString() const { return token.type == TokenType::String; }
         bool isNumber() const { return token.type == TokenType::Number; }
