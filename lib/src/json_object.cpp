@@ -9,6 +9,17 @@ namespace patchjson
     JsonValue::JsonValue(Token token, std::unique_ptr<JsonObject> object) : token{std::move(token)}, object{std::move(object)} {}
     JsonValue::JsonValue(Token token) : JsonValue(token, nullptr) {}
 
+    JsonPath JsonValue::path() const
+    {
+        std::vector<std::string> path;
+        for (const JsonValue* current = this; current != nullptr; current = current->parent)
+        {
+            path.push_back(std::string{current->location});
+        }
+        std::reverse(path.begin(), path.end());
+        return JsonPath{path};
+    }
+
     const JsonValue& JsonObject::at(std::string_view key) const
     {
         auto it = std::find_if(members.begin(), members.end(), [&key](const auto& member)
@@ -36,15 +47,12 @@ namespace patchjson
         members.push_back({std::move(key), std::move(value)});
     }
 
-    JsonPath JsonValue::path() const
+    bool JsonObject::has(std::string_view key) const
     {
-        std::vector<std::string> path;
-        for (const JsonValue* current = this; current != nullptr; current = current->parent)
+        return std::any_of(members.begin(), members.end(), [&key](const auto& member)
         {
-            path.push_back(std::string{current->location});
-        }
-        std::reverse(path.begin(), path.end());
-        return JsonPath{path};
+            return member.key == key;
+        });
     }
 
     const JsonValue& JsonValue::find(std::span<const std::string> path) const

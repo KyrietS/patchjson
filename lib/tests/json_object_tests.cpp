@@ -110,6 +110,9 @@ TEST_F(JsonObjectTests, ObjectWithMemberValues)
     EXPECT_EQ(object.at("key2"), 0.5);
     EXPECT_EQ(object.at("key3"), true);
     EXPECT_EQ(object.at("key4"), nullptr);
+
+    EXPECT_TRUE(object.has("key1"));
+    EXPECT_FALSE(object.has("nonexistent"));
 }
 
 TEST_F(JsonObjectTests, ObjectIsIterable)
@@ -165,10 +168,10 @@ TEST_F(JsonObjectTests, ObjectWithMemberObject)
 TEST_F(JsonObjectTests, ObjectArray)
 {
     JsonObject array{};
-    array.add("key1", makeValue("foo"));
-    array.add("key2", makeValue(0.5));
-    array.add("key3", makeValue(true));
-    array.add("key4", makeValue(nullptr));
+    array.add("1", makeValue("foo"));
+    array.add("2", makeValue(0.5));
+    array.add("3", makeValue(true));
+    array.add("4", makeValue(nullptr));
 
     EXPECT_THAT(array, Not(IsEmpty()));
     EXPECT_THAT(array, SizeIs(4));
@@ -177,4 +180,7 @@ TEST_F(JsonObjectTests, ObjectArray)
     EXPECT_EQ(array.at(1), 0.5);
     EXPECT_EQ(array.at(2), true);
     EXPECT_EQ(array.at(3), nullptr);
+
+    EXPECT_TRUE(array.has("1"));
+    EXPECT_FALSE(array.has("nonexistent"));
 }

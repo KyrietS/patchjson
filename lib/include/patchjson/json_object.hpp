@@ -90,8 +90,10 @@ namespace patchjson
 
         const JsonValue& at(const std::string_view key) const;
         const JsonValue& at(size_t index) const;
+
         void add(std::string key, JsonValue value);
 
+        bool has(const std::string_view key) const;
         const JsonValue& find(std::span<const std::string> path) const;
         const JsonValue& find(std::string_view path) const { return find(JsonPath{path}); }
 
