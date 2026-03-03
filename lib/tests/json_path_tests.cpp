@@ -6,8 +6,10 @@ using namespace patchjson;
 
 TEST(JsonPathTests, EmptyPath)
 {
-    JsonPath path{std::vector<std::string>{}};
-    EXPECT_EQ(path.toString(), "");
+    JsonPath path1{std::vector<std::string>{}};
+    JsonPath path2 = "";
+    EXPECT_EQ(path1.toString(), "");
+    EXPECT_EQ(path2.toString(), "");
 }
 
 TEST(JsonPathTests, SingleElementPath)

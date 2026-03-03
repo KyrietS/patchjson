@@ -15,7 +15,10 @@ namespace patchjson
         JsonPath(const std::vector<std::string>& path)  : path{path} {}
         JsonPath(std::string_view path)
         {
-            assert(path.starts_with('/'));
+            if (not path.starts_with('/')) {
+                return;
+            }
+
             path.remove_prefix(1);
 
             while (not path.empty())
