@@ -44,3 +44,11 @@ TEST(JsonPathTests, AppendSegment)
     path.append("baz");
     EXPECT_EQ(path.toString(), "/foo/bar/baz");
 }
+
+TEST(JsonPathTests, OperatorPlus)
+{
+    JsonPath path = "/foo/bar";
+    JsonPath newPath = path + "baz";
+    EXPECT_EQ(newPath.toString(), "/foo/bar/baz");
+    EXPECT_EQ(path.toString(), "/foo/bar"); // Original path should remain unchanged
+}

@@ -37,6 +37,13 @@ namespace patchjson
             path.push_back(segment);
         }
 
+        JsonPath operator+(const std::string& segment) const
+        {
+            JsonPath newPath = *this;
+            newPath.append(segment);
+            return newPath;
+        }
+
         std::string toString() const
         {
             std::ostringstream oss;
