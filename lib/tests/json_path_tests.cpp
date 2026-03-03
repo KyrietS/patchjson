@@ -37,3 +37,10 @@ TEST(JsonPathTests, CreateFromCString)
     JsonPath path = "/foo/bar/baz";
     EXPECT_EQ(path.toString(), "/foo/bar/baz");
 }
+
+TEST(JsonPathTests, AppendSegment)
+{
+    JsonPath path = "/foo/bar";
+    path.append("baz");
+    EXPECT_EQ(path.toString(), "/foo/bar/baz");
+}

@@ -32,6 +32,11 @@ namespace patchjson
         }
         JsonPath(const char* path) : JsonPath(std::string_view{path}) {}
 
+        void append(const std::string& segment)
+        {
+            path.push_back(segment);
+        }
+
         std::string toString() const
         {
             std::ostringstream oss;
