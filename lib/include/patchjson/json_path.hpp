@@ -11,6 +11,7 @@ namespace patchjson
     class JsonPath
     {
     public:
+        JsonPath() = default;
         JsonPath(const std::vector<std::string>& path)  : path{path} {}
         JsonPath(std::string_view path)
         {
