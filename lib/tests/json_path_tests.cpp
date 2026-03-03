@@ -52,3 +52,13 @@ TEST(JsonPathTests, OperatorPlus)
     EXPECT_EQ(newPath.toString(), "/foo/bar/baz");
     EXPECT_EQ(path.toString(), "/foo/bar"); // Original path should remain unchanged
 }
+
+TEST(JsonPathTests, EqualityOperator)
+{
+    JsonPath path1 = "/foo/bar";
+    JsonPath path2 = "/foo/bar";
+    JsonPath path3 = "/foo/baz";
+
+    EXPECT_TRUE(path1 == path2);
+    EXPECT_FALSE(path1 == path3);
+}

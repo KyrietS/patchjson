@@ -45,6 +45,11 @@ namespace patchjson
             return newPath;
         }
 
+        bool operator==(const JsonPath& other) const
+        {
+            return path == other.path;
+        }
+
         std::string toString() const
         {
             std::ostringstream oss;
